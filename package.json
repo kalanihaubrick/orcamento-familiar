@@ -1,0 +1,18 @@
+{
+  "name": "orcamento-familiar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./api/index.js",
+  "scripts": {
+    "start": "nodemon ./api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kalani Haubrick",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.1.2",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.6.0"
+  }
+}
