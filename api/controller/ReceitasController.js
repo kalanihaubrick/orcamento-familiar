@@ -89,8 +89,13 @@ class ReceitasController {
     static async apagaReceita(req, res) {
         const { id } = req.params
         try {
-            await receitasService.apagaRegistro({ id: id })
-            return res.status(200).json({message: `Receita de ${id} deletada`})
+            const receitaExiste = await receitasService.pegaUmRegistro({ id: id })
+            if (receitaExiste != null) {
+                await receitasService.apagaRegistro({ id: id })
+                return res.status(200).json({ message: `Receita de ${id} deletada` })
+            } else {
+                return res.status(400).json({ message: "Não existe receita com este ID" })
+            }
         } catch (error) {
             return res.status(500).json(error.message)
         }

@@ -11,6 +11,6 @@ router
 
     .put('/receitas/:id', ReceitasController.atualizaReceita)
 
-    .delete('/receitas/:id')
+    .delete('/receitas/:id', ReceitasController.apagaReceita)
 
 module.exports = router;
