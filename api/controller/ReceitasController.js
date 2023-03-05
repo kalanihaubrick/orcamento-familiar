@@ -1,6 +1,6 @@
 const { ReceitasServices } = require('../services')
-const { Op } = require('sequelize');
 const receitasService = new ReceitasServices
+const { Op } = require('sequelize');
 
 
 class ReceitasController {
@@ -92,7 +92,7 @@ class ReceitasController {
             const receitaExiste = await receitasService.pegaUmRegistro({ id: id })
             if (receitaExiste != null) {
                 await receitasService.apagaRegistro({ id: id })
-                return res.status(200).json({ message: `Receita de ${id} deletada` })
+                return res.status(200).json({ message: `Receita de ID ${id} deletada` })
             } else {
                 return res.status(400).json({ message: "Não existe receita com este ID" })
             }
