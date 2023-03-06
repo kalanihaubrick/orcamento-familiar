@@ -58,7 +58,7 @@ class DespesasController {
         const { id } = req.params
         const novasInfos = req.body
         try {
-            await despesasService.atualizaRegistro(novasInfos, id)
+            await despesasService.atualizaRegistro(novasInfos, {id: id})
             const despesaAtualizada = await despesasService.pegaUmRegistro({id : id})
             if (despesaAtualizada == null) {
                 res.status(404).json({ message: "Não existe despesa com este ID" })
