@@ -23,6 +23,10 @@ module.exports = {
         allowNull: false,
 
         type: Sequelize.DATE
+      }, 
+      categoria: {
+        
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

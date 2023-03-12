@@ -6,6 +6,7 @@ class DespesasController {
     static async criaDespesa(req, res) {
         const novaDespesa = req.body;
         try {
+            const categoriasPermitidas = ['alimentação', 'saúde', 'moradia', 'transporte', 'educação', 'lazer', 'imprevistos', 'outros']
             const [ano, mes, dia] = novaDespesa.data.split('-');
             novaDespesa.data = new Date(ano, mes - 1, dia);
 
@@ -23,6 +24,11 @@ class DespesasController {
             if (despesaExistente) {
                 return res.status(400).json({ message: "Despesa já cadastrada dentro do mês" })
             } else {
+                if (!novaDespesa.categoria) {
+                    novaDespesa.categoria = 'outros';
+                } else if (!categoriasPermitidas.includes(novaDespesa.categoria)) {
+                    return res.status(400).json({ message: `O campo categoria devem ser um desses: ${categoriasPermitidas}` })
+                }
                 const novaDespesaCriada = await despesasService.criaRegistro(novaDespesa)
                 return res.status(201).json(novaDespesaCriada)
             }
@@ -33,7 +39,7 @@ class DespesasController {
 
     static async consultaDespesas(req, res) {
         try {
-            const todasDespesas = await despesasService.pegaTodosRegistros({ attributes: ['descricao', 'valor', 'data'] })
+            const todasDespesas = await despesasService.pegaTodosRegistros({ attributes: ['descricao', 'valor', 'data', 'categoria'] })
             return res.status(200).json(todasDespesas)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -43,7 +49,7 @@ class DespesasController {
     static async consultaUmaDespesa(req, res) {
         const { id } = req.params
         try {
-            const umaDespesa = await despesasService.pegaUmRegistro({id : id})
+            const umaDespesa = await despesasService.pegaUmRegistro({ id: id })
             if (umaDespesa == null) {
                 res.status(404).json({ message: "Não existe despesa com este ID" })
             } else {
@@ -58,8 +64,8 @@ class DespesasController {
         const { id } = req.params
         const novasInfos = req.body
         try {
-            await despesasService.atualizaRegistro(novasInfos, {id: id})
-            const despesaAtualizada = await despesasService.pegaUmRegistro({id : id})
+            await despesasService.atualizaRegistro(novasInfos, { id: id })
+            const despesaAtualizada = await despesasService.pegaUmRegistro({ id: id })
             if (despesaAtualizada == null) {
                 res.status(404).json({ message: "Não existe despesa com este ID" })
             } else {
@@ -74,12 +80,12 @@ class DespesasController {
         const { id } = req.params
 
         try {
-            const despesa = await despesasService.pegaUmRegistro({id : id})
+            const despesa = await despesasService.pegaUmRegistro({ id: id })
 
             if (despesa == null) {
                 res.status(404).json({ message: "Não existe despesa com este ID" })
             } else {
-                await despesasService.apagaRegistro({id: id})
+                await despesasService.apagaRegistro({ id: id })
                 res.status(200).json({ message: `Despesas de ID ${id} apagado.` })
             }
         } catch (error) {
