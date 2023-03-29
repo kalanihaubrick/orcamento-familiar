@@ -4,13 +4,13 @@ const ReceitasController = require('../controller/ReceitasController')
 const router = express.Router();
 
 router
-    .post('/receitas', ReceitasController.criaReceita)
+    .post('/receitas', ReceitasController.criarReceita)
 
-    .get('/receitas', ReceitasController.consultaReceitas)
-    .get('/receitas/:id', ReceitasController.consultaUmaReceita)
+    .get('/receitas', ReceitasController.consultarReceitas)
+    .get('/receitas/:id', ReceitasController.consultarUmaReceita)
 
-    .put('/receitas/:id', ReceitasController.atualizaReceita)
+    .put('/receitas/:id', ReceitasController.atualizarReceita)
 
-    .delete('/receitas/:id', ReceitasController.apagaReceita)
+    .delete('/receitas/:id', ReceitasController.apagarReceita)
 
 module.exports = router;

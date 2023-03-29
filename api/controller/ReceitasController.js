@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 
 
 class ReceitasController {
-    static async criaReceita(req, res) {
+    static async criarReceita(req, res) {
         const novaReceita = req.body;
         try {
             const [ano, mes, dia] = novaReceita.data.split('-');
@@ -32,16 +32,21 @@ class ReceitasController {
         }
     }
 
-    static async consultaReceitas(req, res) {
+    static async consultarReceitas(req, res) {
+        const { descricao } = req.query
+        const where = {}
+        descricao ? where.descricao = {} : null;
+        descricao ? where.descricao = { [Op.substring]: descricao } : null; 
+
         try {
-            const todasReceitas = await receitasService.pegaTodosRegistros({ attributes: ['descricao', 'valor', 'data'] })
+            const todasReceitas = await receitasService.pegaTodosRegistros({where},{ attributes: ['descricao', 'valor', 'data'] })
             return res.status(200).json(todasReceitas)
         } catch (error) {
             return res.status(500).json(error.message)
         }
     }
 
-    static async consultaUmaReceita(req, res) {
+    static async consultarUmaReceita(req, res) {
         const { id } = req.params
         try {
             const umaReceita = await receitasService.pegaUmRegistro({ id: id }, { attributes: ['descricao', 'valor', 'data'] })
@@ -56,7 +61,7 @@ class ReceitasController {
         }
     }
 
-    static async atualizaReceita(req, res) {
+    static async atualizarReceita(req, res) {
         const { id } = req.params
         const novasInfos = req.body
         try {
@@ -86,7 +91,7 @@ class ReceitasController {
         }
     }
 
-    static async apagaReceita(req, res) {
+    static async apagarReceita(req, res) {
         const { id } = req.params
         try {
             const receitaExiste = await receitasService.pegaUmRegistro({ id: id })
