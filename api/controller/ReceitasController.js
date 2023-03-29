@@ -35,11 +35,11 @@ class ReceitasController {
     static async consultarReceitas(req, res) {
         const { descricao } = req.query
         const where = {}
-        
-        descricao ? where.descricao = { [Op.substring]: descricao } : null; 
+
+        descricao ? where.descricao = { [Op.substring]: descricao } : null;
 
         try {
-            const todasReceitas = await receitasService.pegaTodosRegistros({where, attributes: ['descricao', 'valor', 'data'] })
+            const todasReceitas = await receitasService.pegaTodosRegistros({ where, attributes: ['descricao', 'valor', 'data'] })
             return res.status(200).json(todasReceitas)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -56,6 +56,24 @@ class ReceitasController {
                 return res.status(400).json({ message: "Não existe receita com este ID" })
             }
 
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    static async consultarPorMes(req, res) {
+        const { ano, mes } = req.params
+        const primeiroDia = new Date(ano, mes - 1, 1,-3)
+        const ultimoDia = new Date(ano, mes, 0)
+        try {
+            const receitasNoMes = await receitasService.pegaTodosRegistros({
+                where: {
+                    data: {
+                        [Op.between]: [primeiroDia, ultimoDia]
+                    }
+                }, attributes: ['descricao', 'valor', 'data']
+            })
+            return res.status(200).json(receitasNoMes)
         } catch (error) {
             return res.status(500).json(error.message)
         }

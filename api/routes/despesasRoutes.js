@@ -8,6 +8,7 @@ router
 
     .get('/despesas', DespesasController.consultarDespesas)
     .get('/despesas/:id', DespesasController.consultarUmaDespesa)
+    .get('/despesas/:ano/:mes', DespesasController.consultarPorMes)
 
     .put('/despesas/:id', DespesasController.atualizarDespesa)
 

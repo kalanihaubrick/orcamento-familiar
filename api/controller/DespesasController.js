@@ -51,6 +51,24 @@ class DespesasController {
         }
     }
 
+    static async consultarPorMes(req, res) {
+        const { ano, mes } = req.params
+        const primeiroDia = new Date(ano, mes - 1, 1,-3)
+        const ultimoDia = new Date(ano, mes, 0)
+        try {
+            const despesasNoMes = await despesasService.pegaTodosRegistros({
+                where: {
+                    data: {
+                        [Op.between]: [primeiroDia, ultimoDia]
+                    }
+                }, attributes: ['descricao', 'valor', 'data']
+            })
+            return res.status(200).json(despesasNoMes)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
     static async consultarUmaDespesa(req, res) {
         const { id } = req.params
         try {

@@ -8,6 +8,7 @@ router
 
     .get('/receitas', ReceitasController.consultarReceitas)
     .get('/receitas/:id', ReceitasController.consultarUmaReceita)
+    .get('/receitas/:ano/:mes', ReceitasController.consultarPorMes)
 
     .put('/receitas/:id', ReceitasController.atualizarReceita)
 

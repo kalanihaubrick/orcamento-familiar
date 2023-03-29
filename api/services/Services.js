@@ -23,6 +23,7 @@ class Services {
     async apagaRegistro(where = {}) {
         return database[this.nomeDoModelo].destroy({ where: { ...where } })
     }
+
 }
 
 module.exports = Services;
