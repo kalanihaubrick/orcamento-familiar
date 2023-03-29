@@ -4,12 +4,12 @@ const DespesasController = require('../controller/DespesasController')
 const router = express.Router()
 
 router
-    .post('/despesas', DespesasController.criaDespesa)
+    .post('/despesas', DespesasController.criarDespesa)
 
-    .get('/despesas', DespesasController.consultaDespesas)
-    .get('/despesas/:id', DespesasController.consultaUmaDespesa)
+    .get('/despesas', DespesasController.consultarDespesas)
+    .get('/despesas/:id', DespesasController.consultarUmaDespesa)
 
-    .put('/despesas/:id', DespesasController.atualizaDespesa)
+    .put('/despesas/:id', DespesasController.atualizarDespesa)
 
-    .delete('/despesas/:id', DespesasController.apagaDespesa)
+    .delete('/despesas/:id', DespesasController.apagarDespesa)
     module.exports = router;

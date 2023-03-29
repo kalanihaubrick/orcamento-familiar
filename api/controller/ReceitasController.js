@@ -35,11 +35,11 @@ class ReceitasController {
     static async consultarReceitas(req, res) {
         const { descricao } = req.query
         const where = {}
-        descricao ? where.descricao = {} : null;
+        
         descricao ? where.descricao = { [Op.substring]: descricao } : null; 
 
         try {
-            const todasReceitas = await receitasService.pegaTodosRegistros({where},{ attributes: ['descricao', 'valor', 'data'] })
+            const todasReceitas = await receitasService.pegaTodosRegistros({where, attributes: ['descricao', 'valor', 'data'] })
             return res.status(200).json(todasReceitas)
         } catch (error) {
             return res.status(500).json(error.message)

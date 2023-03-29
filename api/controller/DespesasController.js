@@ -3,7 +3,7 @@ const despesasService = new DespesasServices;
 const { Op } = require('sequelize')
 
 class DespesasController {
-    static async criaDespesa(req, res) {
+    static async criarDespesa(req, res) {
         const novaDespesa = req.body;
         try {
             const categoriasPermitidas = ['alimentação', 'saúde', 'moradia', 'transporte', 'educação', 'lazer', 'imprevistos', 'outros']
@@ -37,16 +37,21 @@ class DespesasController {
         }
     }
 
-    static async consultaDespesas(req, res) {
+    static async consultarDespesas(req, res) {
+        const { descricao } = req.query
+        const where = {}
+
+        descricao ? where.descricao = {[Op.substring]: descricao} : null
+
         try {
-            const todasDespesas = await despesasService.pegaTodosRegistros({ attributes: ['descricao', 'valor', 'data', 'categoria'] })
+            const todasDespesas = await despesasService.pegaTodosRegistros({where, attributes: ['descricao', 'valor', 'data', 'categoria'] })
             return res.status(200).json(todasDespesas)
         } catch (error) {
             return res.status(500).json(error.message)
         }
     }
 
-    static async consultaUmaDespesa(req, res) {
+    static async consultarUmaDespesa(req, res) {
         const { id } = req.params
         try {
             const umaDespesa = await despesasService.pegaUmRegistro({ id: id })
@@ -60,7 +65,7 @@ class DespesasController {
         }
     }
 
-    static async atualizaDespesa(req, res) {
+    static async atualizarDespesa(req, res) {
         const { id } = req.params
         const novasInfos = req.body
         try {
@@ -76,7 +81,7 @@ class DespesasController {
         }
     }
 
-    static async apagaDespesa(req, res) {
+    static async apagarDespesa(req, res) {
         const { id } = req.params
 
         try {
