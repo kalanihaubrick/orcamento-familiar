@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   despesas.init({
     descricao: DataTypes.STRING,
-    valor: DataTypes.DECIMAL,
-    data: DataTypes.DATE,
+    valor: DataTypes.DECIMAL(5,2),
+    data: DataTypes.DATEONLY,
     categoria: DataTypes.STRING
   }, {
     sequelize,

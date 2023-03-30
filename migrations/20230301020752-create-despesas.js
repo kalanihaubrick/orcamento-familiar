@@ -17,12 +17,12 @@ module.exports = {
       valor: {
         allowNull: false,
 
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(5,2)
       },
       data: {
         allowNull: false,
 
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       }, 
       categoria: {
         

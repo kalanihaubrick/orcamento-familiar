@@ -7,28 +7,10 @@ class ReceitasController {
     static async criarReceita(req, res) {
         const novaReceita = req.body;
         try {
-            const [ano, mes, dia] = novaReceita.data.split('-');
-            novaReceita.data = new Date(ano, mes - 1, dia);
-
-            const receitaExistente = await receitasService.pegaUmRegistro({
-                descricao: novaReceita.descricao,
-                data: {
-                    [Op.and]: [
-                        { [Op.gte]: new Date(ano, mes - 1, 1) },
-                        { [Op.lt]: new Date(ano, mes, 0) }
-                    ]
-                }
-            }
-            );
-
-            if (receitaExistente) {
-                return res.status(400).json({ message: "Receita já cadastrada dentro do mês" })
-            } else {
-                const novaReceitaCriada = await receitasService.criaRegistro(novaReceita)
-                return res.status(201).json(novaReceitaCriada)
-            }
+           const novaReceitaCriada = await receitasService.criarRegistro(novaReceita)
+           return res.status(201).json(novaReceitaCriada)
         } catch (error) {
-            return res.status(500).json(error.message)
+            return res.status(500).json({message: error.message})
         }
     }
 
